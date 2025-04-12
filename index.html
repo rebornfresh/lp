@@ -105,6 +105,7 @@
       width: fit-content;
       box-shadow: 0 6px 14px rgba(255, 90, 54, 0.4);
       transition: all 0.3s ease;
+      cursor: pointer; /* tambahkan ini */
     }
     .buy-btn:hover {
       background-color: #e04e2d;
@@ -176,7 +177,7 @@
               <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
               <div class="product-title">${product.title}</div>
               <div class="stars">★★★★☆</div>
-              <div class="buy-btn" onclick="window.location='${product.promote_url}'">Buy Now</div>
+              <a class="buy-btn" onclick="window.location='${product.promote_url}'">Buy Now</a>
             </div>
           `;
 
