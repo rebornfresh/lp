@@ -73,15 +73,20 @@
       throw new Error("Shortcode tidak ditemukan");
     }
 
+    console.log("Shortcode dari URL:", shortcode); // Logging shortcode untuk debugging
+
     // Ambil data JSON dari GitHub
     fetch('https://raw.githubusercontent.com/rebornfresh/lp/refs/heads/main/data/products.json?token=GHSAT0AAAAAADCDCODJCF52HDUNWENOKAA2Z7Z3FFQ')
       .then(response => response.json())
       .then(data => {
+        console.log("Data produk dari GitHub:", data); // Logging data produk untuk debugging
+
         // Mencari produk dengan shortcode yang sesuai
         const product = data.find(p => p.shortcode === shortcode);
 
         if (!product) {
           alert("Produk tidak ditemukan untuk shortcode: " + shortcode);
+          console.log("Produk tidak ditemukan untuk shortcode:", shortcode);
           return;
         }
 
