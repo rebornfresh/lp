@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading Product...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1000px;
+      display: flex;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .image {
+      flex: 1;
+      background-size: cover;
+      background-position: center;
+      min-height: 300px;
+    }
+    .content {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .buy-btn {
+      background: #ff4747;
+      color: white;
+      padding: 15px;
+      border: none;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="product-container">
+    <div class="content">
+      <h1>Loading...</h1>
+    </div>
+  </div>
+
+  <script>
+    async function getData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+
+      if (!code) {
+        document.getElementById("product-container").innerHTML = "<div class='content'><h1>Invalid URL</h1></div>";
+        return;
+      }
+
+      const response = await fetch('data/products.json');
+      const data = await response.json();
+      const product = data[code];
+
+      if (!product) {
+        document.getElementById("product-container").innerHTML = "<div class='content'><h1>Product Not Found</h1></div>";
+        return;
+      }
+
+      const title = product.title.split(' - ')[0];  // buang "- AliExpress" dan setelahnya
+      const image = product.image;
+      const promoteUrl = product.promote_url;
+
+      document.title = title;
+
+      document.getElementById("product-container").innerHTML = `
+        <div class="image" style="background-image: url('${image}')"></div>
+        <div class="content">
+          <h1>${title}</h1>
+          <a class="buy-btn" href="${promoteUrl}" target="_blank">Buy Now</a>
+        </div>
+      `;
+    }
+
+    getData();
+  </script>
+</body>
+</html>
