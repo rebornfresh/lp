@@ -149,9 +149,15 @@
           `;
 
           // Set the buy button's href dynamically
+          const productUrl = product.promote_url;
           document.getElementById('buyBtn').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default action
-            window.open(product.promote_url, '_blank'); // Open the URL in a new tab
+            window.open(productUrl, '_blank'); // Open the URL in a new tab
+          });
+
+          // Set the play button's function the same as the buy button
+          document.getElementById('playBtn').addEventListener('click', function() {
+            window.open(productUrl, '_blank'); // Open the URL in a new tab
           });
 
         } else {
