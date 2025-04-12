@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Loading Product...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * { box-sizing: border-box; }
     body {
@@ -15,6 +15,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      user-select: none;
     }
     .container {
       display: flex;
@@ -26,39 +27,39 @@
       max-width: 900px;
       width: 90%;
       animation: fadeIn 0.6s ease-in-out;
+      position: relative;
     }
     .product-img {
       flex: 1.3;
-      position: relative; /* Important for positioning the play button */
       max-height: 500px;
+      position: relative;
     }
     .product-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
     .play-btn {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px;
-      height: 50px;
-      background-color: rgba(0, 0, 0, 0.5);
+      top: 12px;
+      left: 12px;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .play-btn:hover {
-      background-color: rgba(0, 0, 0, 0.8);
     }
     .play-btn::before {
-      content: '\25B6'; /* Unicode for play symbol */
-      font-size: 24px;
-      color: white;
+      content: '';
+      border-style: solid;
+      border-width: 10px 0 10px 16px;
+      border-color: transparent transparent transparent #ff5a36;
+      margin-left: 3px;
     }
     .product-details {
       flex: 1;
@@ -67,12 +68,29 @@
       flex-direction: column;
       justify-content: center;
     }
+    .month-banner {
+      display: inline-block;
+      background-color: #ffcf33;
+      color: #333;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
     .product-title {
       font-size: 1.8rem;
       font-weight: bold;
       color: #333;
-      margin-bottom: 25px;
       line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .star-rating {
+      color: #FFD700;
+      font-size: 1.2rem;
+      margin-bottom: 24px;
     }
     .buy-btn {
       background-color: #ff5a36;
@@ -87,6 +105,7 @@
       width: fit-content;
       box-shadow: 0 6px 14px rgba(255, 90, 54, 0.4);
       transition: all 0.3s ease;
+      cursor: pointer;
     }
     .buy-btn:hover {
       background-color: #e04e2d;
@@ -119,9 +138,16 @@
       }
     }
   </style>
+  <script>
+    // Disable right click, inspect & view source
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
+      if (e.key === 'F12') e.preventDefault();
+    });
+  </script>
 </head>
 <body>
-
   <div class="container" id="product-container">
     <p class="not-found">Loading product...</p>
   </div>
@@ -136,30 +162,34 @@
         const container = document.getElementById('product-container');
 
         if (product) {
-          document.title = product.title; // Title page updated
+          document.title = product.title;
+
           container.innerHTML = `
             <div class="product-img">
               <img src="${product.Image1}" alt="Product Image">
               <div class="play-btn" id="playBtn"></div>
             </div>
             <div class="product-details">
+              <div class="month-banner" id="monthBanner"></div>
               <div class="product-title">${product.title}</div>
-              <a class="buy-btn" id="buyBtn" href="#">Buy Now</a>
+              <div class="star-rating">★★★★☆</div>
+              <div class="buy-btn" id="buyBtn">Buy Now</div>
             </div>
           `;
 
-          // Set the buy button's href dynamically
-          const productUrl = product.promote_url;
-          document.getElementById('buyBtn').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default action
-            window.location.href = productUrl; // Open the URL in a new tab
-          });
+          // Set banner bulan
+          const monthNames = ["January", "February", "March", "April", "May", "June",
+                              "July", "August", "September", "October", "November", "December"];
+          const currentMonth = new Date().getMonth();
+          document.getElementById('monthBanner').textContent = `${monthNames[currentMonth]} Sale`;
 
-          // Set the play button's function the same as the buy button
-          document.getElementById('playBtn').addEventListener('click', function() {
-            // window.open(productUrl, '_blank'); // Open the URL in a new tab
-            window.location.href = productUrl;
-          });
+          // Aksi tombol
+          document.getElementById('buyBtn').onclick = () => {
+            window.location.href = product.promote_url;
+          };
+          document.getElementById('playBtn').onclick = () => {
+            window.location.href = product.promote_url;
+          };
 
         } else {
           container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
@@ -169,22 +199,6 @@
         console.error(err);
         document.getElementById('product-container').innerHTML = `<p class="not-found">Failed to load product data.</p>`;
       });
-
-    // Disable right-click on the page
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
-
-    // Disable view source (Ctrl+U and F12)
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) { // F12
-        return false;
-      }
-      if (e.ctrlKey && e.keyCode == 85) { // Ctrl+U
-        return false;
-      }
-    }
   </script>
-
 </body>
 </html>
