@@ -119,9 +119,15 @@
             </div>
             <div class="product-details">
               <div class="product-title">${product.title}</div>
-              <a class="buy-btn" href="${product.promote_url}" target="_blank">Buy Now</a>
+              <a class="buy-btn" id="buyBtn" href="#">Buy Now</a>
             </div>
           `;
+          // Set the buy button's href dynamically
+          document.getElementById('buyBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default action
+            window.open(product.promote_url, '_blank'); // Open the URL in a new tab
+          });
+
         } else {
           container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
         }
@@ -130,6 +136,19 @@
         console.error(err);
         document.getElementById('product-container').innerHTML = `<p class="not-found">Failed to load product data.</p>`;
       });
+    // Disable right-click on the page
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Disable view source (Ctrl+U and F12)
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) { // F12
+        return false;
+      }
+      if (e.ctrlKey && e.keyCode == 85) { // Ctrl+U
+        return false;
+      }
   </script>
 
 </body>
