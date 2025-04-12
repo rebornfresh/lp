@@ -42,24 +42,29 @@
     }
     .play-btn {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      width: 42px;
-      height: 42px;
-      background: rgba(255, 255, 255, 0.8);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.7);
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+    .play-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
     }
     .play-btn::before {
       content: '';
       border-style: solid;
-      border-width: 10px 0 10px 16px;
+      border-width: 15px 0 15px 25px;
       border-color: transparent transparent transparent #ff5a36;
-      margin-left: 3px;
+      margin-left: 4px;
     }
     .product-details {
       flex: 1;
@@ -139,10 +144,10 @@
     }
   </style>
   <script>
-    // Disable right click, inspect & view source
+    // Disable right click, inspect, view-source
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", e => {
-      if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
+      if (e.ctrlKey && ['u', 'U', 's', 'S'].includes(e.key)) e.preventDefault();
       if (e.key === 'F12') e.preventDefault();
     });
   </script>
@@ -177,13 +182,12 @@
             </div>
           `;
 
-          // Set banner bulan
           const monthNames = ["January", "February", "March", "April", "May", "June",
                               "July", "August", "September", "October", "November", "December"];
           const currentMonth = new Date().getMonth();
           document.getElementById('monthBanner').textContent = `${monthNames[currentMonth]} Sale`;
 
-          // Aksi tombol
+          // Event handlers
           document.getElementById('buyBtn').onclick = () => {
             window.location.href = product.promote_url;
           };
