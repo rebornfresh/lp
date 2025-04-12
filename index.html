@@ -63,19 +63,37 @@
   </div>
 
   <script>
-    // Fetch JSON data from GitHub
+    // Mendapatkan shortcode dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const shortcode = urlParams.get('e'); // Mendapatkan nilai 'e' dari URL
+
+    // Cek apakah shortcode ada
+    if (!shortcode) {
+      alert("Shortcode tidak ditemukan!");
+      throw new Error("Shortcode tidak ditemukan");
+    }
+
+    // Ambil data JSON dari GitHub
     fetch('https://raw.githubusercontent.com/rebornfresh/lp/refs/heads/main/data/products.json?token=GHSAT0AAAAAADCDCODJCF52HDUNWENOKAA2Z7Z3FFQ')
-      .then(response => response.json()) // Convert response to JSON
+      .then(response => response.json())
       .then(data => {
-        const product = data[0]; // Ambil produk pertama dari data
-        // Update HTML elements with product data
+        // Mencari produk dengan shortcode yang sesuai
+        const product = data.find(p => p.shortcode === shortcode);
+
+        if (!product) {
+          alert("Produk tidak ditemukan untuk shortcode: " + shortcode);
+          return;
+        }
+
+        // Update halaman dengan data produk
         document.getElementById("product-title").innerText = product.title;
         document.getElementById("product-image").src = product.Image1;
         document.getElementById("product-url").href = product.promote_url;
-        document.getElementById("product-shortcode").innerText = product.shortcode;
+        document.getElementById("product-shortcode").innerText = "Shortcode: " + product.shortcode;
       })
       .catch(error => {
-        console.error("Error fetching the JSON data:", error);
+        console.error("Error fetching JSON data:", error);
+        alert("Terjadi kesalahan saat mengambil data produk.");
       });
   </script>
 </body>
