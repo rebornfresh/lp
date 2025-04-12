@@ -43,13 +43,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      padding: 10px 14px;
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: white;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
     }
     .play-button:hover {
       transform: translate(-50%, -50%) scale(1.1);
@@ -62,13 +66,14 @@
       justify-content: center;
     }
     .banner-sale {
-      background: #ff5a36;
-      color: white;
+      background: #ffcc00;
+      color: black;
       padding: 4px 10px;
       font-size: 0.8rem;
       border-radius: 5px;
       width: fit-content;
       margin-bottom: 10px;
+      font-weight: bold;
     }
     .product-title {
       font-size: 1.8rem;
@@ -128,7 +133,6 @@
     }
   </style>
   <script>
-    // Disable right click & view source
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
       if (e.key === 'F12' || 
@@ -171,15 +175,14 @@
             </div>
           `;
 
-          // Related products
           const related = products.filter(p => p.id !== product.id);
-          const shuffled = related.sort(() => 0.5 - Math.random()).slice(0, 5);
+          const shuffled = related.sort(() => 0.5 - Math.random()).slice(0, 4);
           const relatedHTML = `
             <div style="width: 90%; max-width: 900px; padding: 20px; box-sizing: border-box;">
               <h3 style="margin: 0 0 15px; font-size: 1.4rem; color: #333;">Related Products</h3>
-              <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;">
+              <div style="display: flex; gap: 16px; justify-content: space-between;">
                 ${shuffled.map(item => `
-                  <div style="flex: 1 1 calc(20% - 10px); min-width: 160px; max-width: 180px; background: #fffaf5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="flex: 1; background: #fffaf5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column;">
                     <img src="${item.Image1}" alt="Related" style="width: 100%; height: 100px; object-fit: cover;">
                     <div style="padding: 10px;">
                       <div style="font-size: 0.9rem; font-weight: 600; color: #333; min-height: 44px;">
