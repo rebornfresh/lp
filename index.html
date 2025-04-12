@@ -84,6 +84,9 @@
         // Mencari produk dengan shortcode yang sesuai
         const product = data.find(p => p.shortcode === shortcode);
 
+        // Log produk yang ditemukan
+        console.log("Produk ditemukan:", product);
+
         if (!product) {
           alert("Produk tidak ditemukan untuk shortcode: " + shortcode);
           console.log("Produk tidak ditemukan untuk shortcode:", shortcode);
