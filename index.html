@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landing Page</title>
+  <title>Display Products</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,93 +15,72 @@
       height: 100vh;
       background-color: #f4f4f4;
     }
-    #product-container {
+    #products-container {
       background: white;
       border-radius: 8px;
       padding: 20px;
       text-align: center;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      max-width: 800px;
       width: 100%;
     }
-    #product-container img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
-    #product-container h1 {
-      font-size: 24px;
-      color: #333;
-      margin-top: 20px;
+    table, th, td {
+      border: 1px solid #ddd;
     }
-    #product-container a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 18px;
+    th, td {
+      padding: 10px;
+      text-align: left;
     }
-    #product-container a:hover {
-      background-color: #0056b3;
-    }
-    #product-container p {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #555;
+    th {
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 <body>
-  <div id="product-container">
-    <img id="product-image" alt="Product Image" />
-    <h1 id="product-title">Product Title</h1>
-    <a id="product-url" href="#" target="_blank">Buy Now</a>
-    <p id="product-shortcode">Shortcode</p>
+  <div id="products-container">
+    <h1>Product Data</h1>
+    <table id="products-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Promote URL</th>
+          <th>Image</th>
+          <th>Shortcode</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data dari JSON akan ditampilkan di sini -->
+      </tbody>
+    </table>
   </div>
 
   <script>
-    // Mendapatkan shortcode dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const shortcode = urlParams.get('e'); // Mendapatkan nilai 'e' dari URL
-
-    // Cek apakah shortcode ada
-    if (!shortcode) {
-      alert("Shortcode tidak ditemukan!");
-      throw new Error("Shortcode tidak ditemukan");
-    }
-
-    console.log("Shortcode dari URL:", shortcode); // Logging shortcode untuk debugging
-
-    // Ambil data JSON dari GitHub
-    fetch('https://raw.githubusercontent.com/rebornfresh/lp/refs/heads/main/data/products.json?token=GHSAT0AAAAAADCDCODJCF52HDUNWENOKAA2Z7Z3FFQ')
-      .then(response => response.json())
+    // Mengambil file JSON dari GitHub
+    fetch('https://raw.githubusercontent.com/rebornfresh/lp/main/data/products.json')
+      .then(response => response.json())  // Mengonversi response ke JSON
       .then(data => {
-        console.log("Data produk dari GitHub:", data); // Logging data produk untuk debugging
-
-        // Mencari produk dengan shortcode yang sesuai
-        const product = data.find(p => p.shortcode === shortcode);
-
-        // Log produk yang ditemukan
-        console.log("Produk ditemukan:", product);
-
-        if (!product) {
-          alert("Produk tidak ditemukan untuk shortcode: " + shortcode);
-          console.log("Produk tidak ditemukan untuk shortcode:", shortcode);
-          return;
-        }
-
-        // Update halaman dengan data produk
-        document.getElementById("product-title").innerText = product.title;
-        document.getElementById("product-image").src = product.Image1;
-        document.getElementById("product-url").href = product.promote_url;
-        document.getElementById("product-shortcode").innerText = "Shortcode: " + product.shortcode;
+        const tableBody = document.querySelector('#products-table tbody');
+        
+        // Loop untuk menampilkan data dalam tabel
+        data.forEach(product => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${product.id}</td>
+            <td>${product.title}</td>
+            <td><a href="${product.promote_url}" target="_blank">${product.promote_url}</a></td>
+            <td><img src="${product.Image1}" alt="Product Image" width="50"></td>
+            <td>${product.shortcode}</td>
+          `;
+          tableBody.appendChild(row);
+        });
       })
       .catch(error => {
-        console.error("Error fetching JSON data:", error);
-        alert("Terjadi kesalahan saat mengambil data produk.");
+        console.error('Error fetching JSON:', error);
       });
   </script>
 </body>
