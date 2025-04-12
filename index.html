@@ -43,26 +43,23 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 70px;
-      height: 70px;
-      background: rgba(255, 255, 255, 0.7);
+      width: 50px;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.5);
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background-color 0.3s ease;
     }
     .play-btn:hover {
-      background: rgba(255, 255, 255, 0.9);
+      background-color: rgba(0, 0, 0, 0.8);
     }
     .play-btn::before {
-      content: '';
-      border-style: solid;
-      border-width: 15px 0 15px 25px;
-      border-color: transparent transparent transparent #ff5a36;
-      margin-left: 4px;
+      content: '\25B6'; /* Unicode for play symbol */
+      font-size: 24px;
+      color: white;
     }
     .product-details {
       flex: 1;
@@ -173,7 +170,7 @@
           container.innerHTML = `
             <div class="product-img">
               <img src="${product.Image1}" alt="Product Image">
-              <div class="play-btn" id="playBtn" onclick="window.location='${product.promote_url}'">&#9658;</div>
+              <div cclass="play-btn" id="playBtn" onclick="window.location='${product.promote_url}'"></div>
             </div>
             <div class="product-details">
               <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
