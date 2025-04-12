@@ -38,25 +38,31 @@
       height: 100%;
       object-fit: cover;
     }
-    .play-button {
+     .play-btn {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.7);
       border-radius: 50%;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 28px;
-      color: white;
+      align-items: center;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: background 0.3s;
     }
-    .play-button:hover {
-      transform: translate(-50%, -50%) scale(1.1);
+    .play-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .play-btn::before {
+      content: '';
+      border-style: solid;
+      border-width: 15px 0 15px 25px;
+      border-color: transparent transparent transparent #ff5a36;
+      margin-left: 4px;
     }
     .product-details {
       flex: 1;
@@ -65,15 +71,17 @@
       flex-direction: column;
       justify-content: center;
     }
-    .banner-sale {
-      background: #ffcc00;
-      color: black;
+    .month-banner {
+      display: inline-block;
+      background-color: #ffcf33;
+      color: #333;
+      font-size: 0.85rem;
+      font-weight: 600;
       padding: 4px 10px;
-      font-size: 0.8rem;
-      border-radius: 5px;
-      width: fit-content;
-      margin-bottom: 10px;
-      font-weight: bold;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .product-title {
       font-size: 1.8rem;
@@ -168,7 +176,7 @@
               <div class="play-button" onclick="window.location='${product.promote_url}'">&#9658;</div>
             </div>
             <div class="product-details">
-              <div class="banner-sale">${currentMonth} Sale</div>
+              <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
               <div class="product-title">${product.title}</div>
               <div class="stars">★★★★☆</div>
               <a class="buy-btn" href="${product.promote_url}">Buy Now</a>
@@ -188,9 +196,11 @@
                       <div style="font-size: 0.9rem; font-weight: 600; color: #333; min-height: 44px;">
                         ${item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title}
                       </div>
-                      <a href="${item.promote_url}" style="display: inline-block; margin-top: 10px; background: #ff5a36; color: white; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 600;">
-                        See Promo
-                      </a>
+                      <button onclick="window.location='${item.promote_url}'"
+                      style="display: inline-block; margin-top: 10px; background: #ff5a36; color: white; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; text-align: center; border: none; font-weight: 600; cursor: pointer;">
+                      See Promo
+                    </button>
+
                     </div>
                   </div>
                 `).join('')}
