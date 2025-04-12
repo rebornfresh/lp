@@ -1,8 +1,8 @@
-{
-  "abc123": {
-    "id": "1005005249870221",
-    "title": "Smart Watch Men Bluetooth Waterproof",
-    "image": "https://example.com/smartwatch.jpg",
-    "promote_url": "https://s.click.aliexpress.com/e/_abc123"
-  }
-}
+[
+  {
+    "id": "1238474",
+    "title": "Sample Product",
+    "promote_url": "https://example.com/product/1238474",
+    "shortcode": "abc12345"
+  },
+]
