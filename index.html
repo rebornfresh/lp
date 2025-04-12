@@ -105,7 +105,7 @@
   <script>
     const key = window.location.pathname.split('/').pop();
 
-    fetch('https://raw.githubusercontent.com/rebornfresh/lp/main/data/products.json')
+    fetch('https://api.rebornfresh7.workers.dev/n')
       .then(res => res.json())
       .then(products => {
         const product = products.find(p => p.shortcode === key || p.id === key);
