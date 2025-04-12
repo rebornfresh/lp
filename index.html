@@ -5,9 +5,7 @@
   <title>Hot Deal Product</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
@@ -107,12 +105,13 @@
   </div>
 
   <script>
-    const shortcode = window.location.pathname.split('/').pop();
+    const key = window.location.pathname.split('/').pop();
 
     fetch('https://raw.githubusercontent.com/rebornfresh/lp/main/data/products.json')
-      .then(response => response.json())
+      .then(res => res.json())
       .then(products => {
-        const product = products.find(p => p.shortcode === shortcode);
+        // Cari berdasarkan shortcode atau id
+        const product = products.find(p => p.shortcode === key || p.id === key);
         const container = document.getElementById('product-container');
 
         if (product) {
@@ -126,11 +125,11 @@
             </div>
           `;
         } else {
-          container.innerHTML = `<p class="not-found">Shortcode <strong>${shortcode}</strong> not found.</p>`;
+          container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
         }
       })
-      .catch(error => {
-        console.error(error);
+      .catch(err => {
+        console.error(err);
         document.getElementById('product-container').innerHTML = `<p class="not-found">Failed to load product data.</p>`;
       });
   </script>
