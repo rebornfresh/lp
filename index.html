@@ -5,139 +5,192 @@
   <title>Loading Product...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #fff8f0, #ffe8d6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #fff8f0, #ffe8d6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 90%;
+    animation: fadeIn 0.6s ease-in-out;
+    margin-top: 40px;
+  }
+
+  .product-img {
+    flex: 1.3;
+    max-height: 500px;
+    position: relative;
+  }
+
+  .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .play-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .play-btn::before {
+    content: '\25B6'; /* Unicode for play symbol */
+    font-size: 24px;
+    color: white;
+  }
+
+  .product-details {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .month-banner {
+    display: inline-block;
+    background-color: #ffcf33;
+    color: #333;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .product-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .stars {
+    color: gold;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+  }
+
+  .buy-btn {
+    background-color: #ff5a36;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-block;
+    width: fit-content;
+    box-shadow: 0 6px 14px rgba(255, 90, 54, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .buy-btn:hover {
+    background-color: #e04e2d;
+    transform: scale(1.05);
+  }
+
+  .not-found {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #888;
+    margin-top: 40px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
     .container {
-      display: flex;
-      flex-direction: row;
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      overflow: hidden;
-      max-width: 900px;
-      width: 90%;
-      animation: fadeIn 0.6s ease-in-out;
-      margin-top: 40px;
-    }
-    .product-img {
-      flex: 1.3;
-      max-height: 500px;
-      position: relative;
-    }
-    .product-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-     .play-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px;
-      height: 50px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .play-btn:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-    .play-btn::before {
-      content: '\25B6'; /* Unicode for play symbol */
-      font-size: 24px;
-      color: white;
-    }
-    .product-details {
-      flex: 1;
-      padding: 25px;
-      display: flex;
       flex-direction: column;
-      justify-content: center;
     }
-    .month-banner {
-      display: inline-block;
-      background-color: #ffcf33;
-      color: #333;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+
+    .product-img {
+      max-height: 280px;
     }
+
     .product-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-    .stars {
-      color: gold;
-      font-size: 1.2rem;
-      margin-bottom: 25px;
-    }
-    .buy-btn {
-      background-color: #ff5a36;
-      color: white;
-      padding: 12px 25px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      display: inline-block;
-      width: fit-content;
-      box-shadow: 0 6px 14px rgba(255, 90, 54, 0.4);
-      transition: all 0.3s ease;
-      cursor: pointer; /* tambahkan ini */
-    }
-    .buy-btn:hover {
-      background-color: #e04e2d;
-      transform: scale(1.05);
-    }
-    .not-found {
-      text-align: center;
       font-size: 1.4rem;
-      color: #888;
-      margin-top: 40px;
+      text-align: center;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .product-details {
+      align-items: center;
+      padding: 20px;
     }
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .product-img {
-        max-height: 280px;
-      }
-      .product-title {
-        font-size: 1.4rem;
-        text-align: center;
-      }
-      .product-details {
-        align-items: center;
-        padding: 20px;
-      }
+
+    .month-banner {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      margin-bottom: 8px;
     }
-  </style>
+
+    .play-btn {
+      width: 40px;
+      height: 40px;
+      transform: translate(-50%, -50%);
+    }
+
+    .buy-btn {
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .container img {
+      max-width: 100%;
+    }
+
+    .related-products {
+      flex-direction: column;
+    }
+
+    .related-products .related-item {
+      margin-bottom: 16px;
+    }
+
+    .related-products .related-item img {
+      height: 100px;
+    }
+  }
+</style>
+
   <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
