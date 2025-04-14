@@ -275,7 +275,10 @@
           `;
 
           // Related Products
-          const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 4);
+          const relatedProducts = [];
+          const shuffledProducts = products.sort(() => Math.random() - 0.5); // Acak urutan produk
+          const randomRelatedProducts = shuffledProducts.filter(p => p.id !== randomProduct.id).slice(0, 4); // Ambil 4 produk acak yang tidak sama dengan produk yang sedang ditampilkan
+
           relatedContainer.innerHTML = relatedProducts.map(related => `
             <div class="related-item">
               <img src="${related.Image1}" alt="Related Product">
@@ -323,7 +326,10 @@
         `;
 
         // Related Products
-        const relatedProducts = products.filter(p => p.id !== randomProduct.id).slice(0, 4);
+        const relatedProducts = [];
+        const shuffledProducts = products.sort(() => Math.random() - 0.5); // Acak urutan produk
+        const randomRelatedProducts = shuffledProducts.filter(p => p.id !== randomProduct.id).slice(0, 4); // Ambil 4 produk acak yang tidak sama dengan produk yang sedang ditampilkan
+
         relatedContainer.innerHTML = relatedProducts.map(related => `
           <div class="related-item">
             <img src="${related.Image1}" alt="Related Product">
