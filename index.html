@@ -204,8 +204,7 @@
 
   <div class="container" id="product-container">
     <p class="not-found">Loading product...</p>
-  </div>
-<script>
+  </div><script>
   // Fungsi untuk mengambil produk berdasarkan shortcode atau menampilkan produk acak
   const key = window.location.pathname.split('/').pop();
 
@@ -235,6 +234,20 @@
               <div class="product-title">${product.title}</div>
               <div class="stars">★★★★☆</div>
               <a class="buy-btn" onclick="window.location='${product.promote_url}'">Buy Now</a>
+            </div>
+            <div class="related-products">
+              <h3>Related Products</h3>
+              <div class="product-list">
+                ${products.filter(p => p.category === product.category && p.shortcode !== product.shortcode)
+                  .slice(0, 4)  // Menampilkan 4 produk terkait
+                  .map(p => `
+                    <div class="related-product">
+                      <img src="${p.Image1}" alt="Related Product">
+                      <div class="related-title">${p.title}</div>
+                      <a href="/e/${p.shortcode}" class="view-btn">View</a>
+                    </div>
+                  `).join('')}
+              </div>
             </div>
           `;
         } else {
@@ -272,6 +285,20 @@
             <div class="stars">★★★★☆</div>
             <a class="buy-btn" onclick="window.location='${randomProduct.promote_url}'">Buy Now</a>
           </div>
+          <div class="related-products">
+            <h3>Related Products</h3>
+            <div class="product-list">
+              ${products.filter(p => p.category === randomProduct.category && p.shortcode !== randomProduct.shortcode)
+                .slice(0, 4)  // Menampilkan 4 produk terkait
+                .map(p => `
+                  <div class="related-product">
+                    <img src="${p.Image1}" alt="Related Product">
+                    <div class="related-title">${p.title}</div>
+                    <a href="/e/${p.shortcode}" class="view-btn">View</a>
+                  </div>
+                `).join('')}
+            </div>
+          </div>
         `;
       })
       .catch(err => {
@@ -280,6 +307,7 @@
       });
   }
 </script>
+
 
   <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
