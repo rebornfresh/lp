@@ -275,15 +275,24 @@
           `;
 
           // Related Products
-          const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 4);
-          relatedContainer.innerHTML = relatedProducts.map(related => `
+           const relatedProducts = products.filter(p => p.id !== randomProduct.id);
+        
+          // Acak urutan produk terkait
+          for (let i = relatedProducts.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [relatedProducts[i], relatedProducts[j]] = [relatedProducts[j], relatedProducts[i]];
+          }
+          
+          // Ambil 4 produk terkait acak
+          const selectedRelatedProducts = relatedProducts.slice(0, 4);
+          
+          relatedContainer.innerHTML = selectedRelatedProducts.map(related => `
             <div class="related-item">
               <img src="${related.Image1}" alt="Related Product">
               <div class="related-title">${related.title}</div>
               <a class="see-promo-btn" onclick="window.location='${related.promote_url}'">See Promo</a>
             </div>
           `).join('');
-
         } else {
           container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
         }
@@ -323,8 +332,19 @@
         `;
 
         // Related Products
-        const relatedProducts = products.filter(p => p.id !== randomProduct.id).slice(0, 4);
-        relatedContainer.innerHTML = relatedProducts.map(related => `
+        // Ambil produk terkait acak selain produk yang sedang ditampilkan
+        const relatedProducts = products.filter(p => p.id !== randomProduct.id);
+        
+        // Acak urutan produk terkait
+        for (let i = relatedProducts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [relatedProducts[i], relatedProducts[j]] = [relatedProducts[j], relatedProducts[i]];
+        }
+        
+        // Ambil 4 produk terkait acak
+        const selectedRelatedProducts = relatedProducts.slice(0, 4);
+        
+        relatedContainer.innerHTML = selectedRelatedProducts.map(related => `
           <div class="related-item">
             <img src="${related.Image1}" alt="Related Product">
             <div class="related-title">${related.title}</div>
