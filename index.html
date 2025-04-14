@@ -278,14 +278,20 @@
           const relatedProducts = [];
           const shuffledProducts = products.sort(() => Math.random() - 0.5); // Acak urutan produk
           const randomRelatedProducts = shuffledProducts.filter(p => p.id !== randomProduct.id).slice(0, 4); // Ambil 4 produk acak yang tidak sama dengan produk yang sedang ditampilkan
-
-          relatedContainer.innerHTML = relatedProducts.map(related => `
-            <div class="related-item">
-              <img src="${related.Image1}" alt="Related Product">
-              <div class="related-title">${related.title}</div>
-              <a class="see-promo-btn" onclick="window.location='${related.promote_url}'">See Promo</a>
-            </div>
-          `).join('');
+          // Tampilkan produk terkait di bagian bawah
+          randomRelatedProducts.forEach(product => {
+            const relatedProductHTML = `
+              <div class="related-item">
+                <img src="${product.Image1}" alt="${product.title}">
+                <div class="product-info">
+                  <div class="product-title">${product.title}</div>
+                  <a href="${product.promote_url}" class="see-promo-btn">See Promo</a>
+                </div>
+              </div>
+            `;
+            document.querySelector('.related-products').innerHTML += relatedProductHTML;
+          });
+          
 
         } else {
           container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
@@ -329,15 +335,20 @@
         const relatedProducts = [];
         const shuffledProducts = products.sort(() => Math.random() - 0.5); // Acak urutan produk
         const randomRelatedProducts = shuffledProducts.filter(p => p.id !== randomProduct.id).slice(0, 4); // Ambil 4 produk acak yang tidak sama dengan produk yang sedang ditampilkan
-
-        relatedContainer.innerHTML = relatedProducts.map(related => `
-          <div class="related-item">
-            <img src="${related.Image1}" alt="Related Product">
-            <div class="related-title">${related.title}</div>
-            <a class="see-promo-btn" onclick="window.location='${related.promote_url}'">See Promo</a>
-          </div>
-        `).join('');
-
+        // Tampilkan produk terkait di bagian bawah
+        randomRelatedProducts.forEach(product => {
+          const relatedProductHTML = `
+            <div class="related-item">
+              <img src="${product.Image1}" alt="${product.title}">
+              <div class="product-info">
+                <div class="product-title">${product.title}</div>
+                <a href="${product.promote_url}" class="see-promo-btn">See Promo</a>
+              </div>
+            </div>
+          `;
+          document.querySelector('.related-products').innerHTML += relatedProductHTML;
+        });
+        
       })
       .catch(err => {
         console.error(err);
