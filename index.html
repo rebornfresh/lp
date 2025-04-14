@@ -208,66 +208,60 @@
 
   <script>
     const key = window.location.pathname.split('/').pop();
-    fetch('https://api.rebornfresh7.workers.dev/')
-      .then(res => res.json())
-      .then(products => {
-        const product = products.find(p => p.shortcode === key || p.id === key);
-        const container = document.getElementById('product-container');
+    const key = window.location.pathname.split('/').pop();
+const isHomePage = key === '';  // Memeriksa apakah ini halaman utama
 
-        if (product) {
-          document.title = product.title;
+fetch('https://api.rebornfresh7.workers.dev/')
+  .then(res => res.json())
+  .then(products => {
+    const container = document.getElementById('product-container');
 
-          const monthNames = ["January", "February", "March", "April", "May", "June",
-                              "July", "August", "September", "October", "November", "December"];
-          const currentMonth = monthNames[new Date().getMonth()];
+    if (isHomePage) {
+      // Jika halaman utama, tampilkan 20 produk acak
+      const randomProducts = products.sort(() => 0.5 - Math.random()).slice(0, 20);
+      container.innerHTML = randomProducts.map(product => `
+        <div class="product">
+          <div class="product-img">
+            <img src="${product.Image1}" alt="Product Image">
+          </div>
+          <div class="product-details">
+            <div class="product-title">${product.title}</div>
+            <a class="buy-btn" href="${product.promote_url}">Buy Now</a>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      // Jika ini adalah halaman produk, tampilkan produk spesifik berdasarkan shortcode
+      const product = products.find(p => p.shortcode === key || p.id === key);
+      if (product) {
+        document.title = product.title;
 
-          container.innerHTML = `
-            <div class="product-img">
-              <img src="${product.Image1}" alt="Product Image">
-              <div class="play-btn" id="playBtn" onclick="window.location='${product.promote_url}'"></div>
-            </div>
-            <div class="product-details">
-              <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
-              <div class="product-title">${product.title}</div>
-              <div class="stars">★★★★☆</div>
-              <a class="buy-btn" onclick="window.location='${product.promote_url}'">Buy Now</a>
-            </div>
-          `;
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        const currentMonth = monthNames[new Date().getMonth()];
 
-          const related = products.filter(p => p.id !== product.id);
-          const shuffled = related.sort(() => 0.5 - Math.random()).slice(0, 4);
-          const relatedHTML = `
-            <div style="width: 90%; max-width: 900px; padding: 20px; box-sizing: border-box;">
-              <h3 style="margin: 0 0 15px; font-size: 1.4rem; color: #333;">Related Products</h3>
-              <div style="display: flex; gap: 16px; justify-content: space-between;">
-                ${shuffled.map(item => `
-                  <div style="flex: 1; background: #fffaf5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column;">
-                    <img src="${item.Image1}" alt="Related" style="width: 100%; height: 100px; object-fit: cover;">
-                    <div style="padding: 10px;">
-                      <div style="font-size: 0.9rem; font-weight: 600; color: #333; min-height: 44px;">
-                        ${item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title}
-                      </div>
-                      <button onclick="window.location='${item.promote_url}'"
-                      style="display: inline-block; margin-top: 10px; background: #ff5a36; color: white; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; text-align: center; border: none; font-weight: 600; cursor: pointer;">
-                      See Promo
-                    </button>
+        container.innerHTML = `
+          <div class="product-img">
+            <img src="${product.Image1}" alt="Product Image">
+            <div class="play-btn" id="playBtn" onclick="window.location='${product.promote_url}'"></div>
+          </div>
+          <div class="product-details">
+            <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
+            <div class="product-title">${product.title}</div>
+            <div class="stars">★★★★☆</div>
+            <a class="buy-btn" onclick="window.location='${product.promote_url}'">Buy Now</a>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
+      }
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('product-container').innerHTML = `<p class="not-found">Failed to load product data.</p>`;
+  });
 
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
-          document.body.insertAdjacentHTML('beforeend', relatedHTML);
-        } else {
-          container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById('product-container').innerHTML = `<p class="not-found">Failed to load product data.</p>`;
-      });
-    
   </script>
   <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
