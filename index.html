@@ -274,33 +274,33 @@
           </div>
         `;
         const related = products.filter(p => p.id !== product.id);
-          const shuffled = related.sort(() => 0.5 - Math.random()).slice(0, 4);
-          const relatedHTML = `
-            <div style="width: 90%; max-width: 900px; padding: 20px; box-sizing: border-box;">
-              <h3 style="margin: 0 0 15px; font-size: 1.4rem; color: #333;">Related Products</h3>
-              <div style="display: flex; gap: 16px; justify-content: space-between;">
-                ${shuffled.map(item => `
-                  <div style="flex: 1; background: #fffaf5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column;">
-                    <img src="${item.Image1}" alt="Related" style="width: 100%; height: 100px; object-fit: cover;">
-                    <div style="padding: 10px;">
-                      <div style="font-size: 0.9rem; font-weight: 600; color: #333; min-height: 44px;">
-                        ${item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title}
-                      </div>
-                      <button onclick="window.location='${item.promote_url}'"
-                      style="display: inline-block; margin-top: 10px; background: #ff5a36; color: white; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; text-align: center; border: none; font-weight: 600; cursor: pointer;">
-                      See Promo
-                    </button>
-
+        const shuffled = related.sort(() => 0.5 - Math.random()).slice(0, 4);
+        const relatedHTML = `
+          <div style="width: 90%; max-width: 900px; padding: 20px; box-sizing: border-box;">
+            <h3 style="margin: 0 0 15px; font-size: 1.4rem; color: #333;">Related Products</h3>
+            <div style="display: flex; gap: 16px; justify-content: space-between;">
+              ${shuffled.map(item => `
+                <div style="flex: 1; background: #fffaf5; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column;">
+                  <img src="${item.Image1}" alt="Related" style="width: 100%; height: 100px; object-fit: cover;">
+                  <div style="padding: 10px;">
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #333; min-height: 44px;">
+                      ${item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title}
                     </div>
+                    <button onclick="window.location='${item.promote_url}'"
+                    style="display: inline-block; margin-top: 10px; background: #ff5a36; color: white; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; text-align: center; border: none; font-weight: 600; cursor: pointer;">
+                    See Promo
+                  </button>
+
                   </div>
-                `).join('')}
-              </div>
+                </div>
+              `).join('')}
             </div>
-          `;
-          document.body.insertAdjacentHTML('beforeend', relatedHTML);
-        } else {
-          container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
-        }
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', relatedHTML);
+      } else {
+        container.innerHTML = `<p class="not-found">Product <strong>${key}</strong> not found.</p>`;
+      }
       })
       .catch(err => {
         console.error(err);
