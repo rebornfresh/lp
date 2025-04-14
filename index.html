@@ -275,7 +275,11 @@
           `;
 
           // Related Products
-          const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 4);
+          const relatedProducts = products
+          .filter(p => p.shortcode !== product.shortcode) // Menyaring produk yang tidak sama dengan produk saat ini
+          .sort(() => Math.random() - 0.5) // Mengacak urutan produk
+          .slice(0, 4); // Mengambil 4 produk pertama dari hasil acak
+
           relatedContainer.innerHTML = relatedProducts.map(related => `
             <div class="related-item">
               <img src="${related.Image1}" alt="Related Product">
@@ -299,15 +303,23 @@
       .then(products => {
         const container = document.getElementById('product-container');
         const relatedContainer = document.getElementById('related-products');
+        
+        // Ambil produk acak
         const randomProduct = products[Math.floor(Math.random() * products.length)];
+
+        document.title = randomProduct.title;
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        const currentMonth = monthNames[new Date().getMonth()];
 
         container.innerHTML = `
           <div class="product-img">
-            <img src="${randomProduct.Image1}" alt="Random Product Image">
+            <img src="${randomProduct.Image1}" alt="Product Image">
             <div class="play-btn" id="playBtn" onclick="window.location='${randomProduct.promote_url}'"></div>
           </div>
           <div class="product-details">
-            <div class="month-banner">Discover Great Deals</div>
+            <div class="month-banner">${currentMonth} Sale - Up to 70% off</div>
             <div class="product-title">${randomProduct.title}</div>
             <div class="stars">★★★★☆</div>
             <a class="buy-btn" onclick="window.location='${randomProduct.promote_url}'">Buy Now</a>
@@ -315,14 +327,27 @@
         `;
 
         // Related Products
-        const relatedProducts = products.filter(p => p.id !== randomProduct.id).slice(0, 4);
-        relatedContainer.innerHTML = relatedProducts.map(related => `
+        // Ambil produk terkait acak selain produk yang sedang ditampilkan
+        const relatedProducts = products.filter(p => p.id !== randomProduct.id);
+        
+        // Acak urutan produk terkait
+        for (let i = relatedProducts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [relatedProducts[i], relatedProducts[j]] = [relatedProducts[j], relatedProducts[i]];
+        }
+        
+        // Ambil 4 produk terkait acak
+        const selectedRelatedProducts = relatedProducts.slice(0, 4);
+        
+        relatedContainer.innerHTML = selectedRelatedProducts.map(related => `
           <div class="related-item">
             <img src="${related.Image1}" alt="Related Product">
             <div class="related-title">${related.title}</div>
             <a class="see-promo-btn" onclick="window.location='${related.promote_url}'">See Promo</a>
           </div>
         `).join('');
+
+
       })
       .catch(err => {
         console.error(err);
@@ -331,5 +356,17 @@
   }
 </script>
 
+   <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4943447,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4943447&101" alt="site stats" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 </body>
 </html>
